@@ -1,0 +1,113 @@
+====================================
+LINEAR REGRESSION SERVICE - FINAL STEPS
+=======================================
+
+STEP 1: Open Terminal
+Ctrl + Alt + T
+
+---
+
+## STEP 2: Check tools
+
+git --version
+docker --version
+kubectl version --client
+minikube version
+
+---
+
+## STEP 3: Install tools (if missing)
+
+sudo apt update
+sudo apt install git docker.io nodejs npm golang -y
+
+Start Docker:
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+Install kubectl (if not present):
+curl -LO https://dl.k8s.io/release/latest/bin/linux/amd64/kubectl
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+
+Install Minikube:
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube-linux-amd64
+sudo mv minikube-linux-amd64 /usr/local/bin/minikube
+
+---
+
+## STEP 4: Remove old repo (if exists)
+
+rm -rf lab6linearregression
+
+---
+
+## STEP 5: Clone repository
+
+git clone https://github.com/Rupsika/lab6linearregression
+cd lab6linearregression
+
+---
+
+## STEP 6: Start Minikube
+
+minikube start
+
+---
+
+## STEP 7: Connect Docker to Minikube
+
+eval $(minikube docker-env)
+
+---
+
+## STEP 8: Build Docker Image
+
+cd node-app
+docker build -t linear-regression .
+
+Go back:
+cd ..
+
+---
+
+## STEP 9: Deploy to Kubernetes
+
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+
+---
+
+## STEP 10: Verify Deployment
+
+kubectl get pods
+kubectl get services
+
+---
+
+## STEP 11: Access Service
+
+minikube service linear-regression-service
+
+---
+
+## STEP 12: Test API (FINAL OUTPUT)
+
+curl -X POST http://192.168.49.2:30008/predict -H "Content-Type: application/json" -d '{"x":5}'
+
+Expected Output:
+{"prediction":13}
+
+---
+
+## STEP 13: Debug (if needed)
+
+kubectl describe pod <pod-name>
+kubectl logs <pod-name>
+
+====================================
+END OF STEPS
+============
