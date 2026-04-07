@@ -64,20 +64,39 @@ eval $(minikube docker-env)
 
 ---
 
-## STEP 8: Build Docker Image
+# ====================================
+
+# STEP 8: BUILD (CHOOSE ONE ONLY)
+
+# ====================================
+
+## 🔹 OPTION A: NODE.JS
 
 cd node-app
 docker build -t linear-regression .
-
-Go back:
 cd ..
 
 ---
 
-## STEP 9: Deploy to Kubernetes
+## 🔹 OPTION B: GO
+
+cd go-app
+docker build -t linear-regression .
+cd ..
+
+---
+
+# ====================================
+
+# STEP 9: DEPLOY TO KUBERNETES
+
+# ====================================
 
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
+
+(If already deployed earlier, restart pod:)
+kubectl delete pod -l app=linear-regression
 
 ---
 
